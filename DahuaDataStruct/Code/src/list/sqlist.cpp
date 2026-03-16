@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
 #define OK 1
 #define ERROR 0
@@ -25,22 +29,43 @@ Status GetElem(SqList L, int i, ElemType *e)
     return OK;
 }
 
-Status InsertElem(SqList L, int i, ElemType e)
+Status InsertElem(SqList *L, int i, ElemType e)
 {
-    for(int j = L.length; j > i; j--)
+    if(!L || L->length <= 0 || i > L->length)
+        return ERROR;
+
+    for(int j = L->length; j > i; j--)
     {
-        L.data[j] = L.data[j-1];
+        L->data[j] = L->data[j-1];
     }
-    L.data[i] = e;
+    L->data[i] = e;
+    L->length++;
     return OK;
 }
 
-Status DeleteElem(SqList L, int i, ElemType e)
+Status DeleteElem(SqList *L, int i, ElemType *e)
 {
-    e = L.data[i];
-    for(int j = i; j< L.length; j++)
+    if(!L || L->length <= 0 || i > L->length)
+        return ERROR;
+
+    *e = L->data[i];
+    int j = 0;
+    for(j = i; j< L->length-1; j++)
     {
-        L.data[j] = L.data[j+1];
+        L->data[j] = L->data[j+1];
     }
+    L->data[j] = 0;
+    L->length--;
+
+    return OK;
+}
+
+Status MoveElem(SqList *L, int i, int pos, bool Front)
+{
+    if(!L || L->length <= 0 || i > L->length)
+        return ERROR;
+    ElemType e;
+    DeleteElem(L, i, &e);
+    InsertElem(L, Front? i-pos:i+pos, e);
     return OK;
 }
