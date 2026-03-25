@@ -17,7 +17,11 @@ Sort<T>::Sort(int size, T *element)
 template <typename T>
 void Sort<T>::printElem()
 {
-
+    for(int i = 0; i < m_size; i++)
+    {
+        printf("%d ", m_element[i]);
+    }
+    putchar('\n');
 }
 
 template <typename T>
@@ -34,6 +38,21 @@ bool Sort<T>::bubbleSort()
         }
     }
 
+    return false;
+}
+
+template <typename T>
+bool Sort<T>::insertSort()
+{
+    for(int i = 0; i < m_size - 1; i++)
+    {
+        int min = i;
+        for(int j = i+1; j < m_size; j++)
+        {
+            min = j;
+        }
+        swap(&m_element[min], &m_element[i]);
+    }
     return false;
 }
 

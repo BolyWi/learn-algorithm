@@ -23,6 +23,7 @@ public:
     void printElem();
 
     bool bubbleSort();
+    bool insertSort();
     bool quickSort();
     template <typename U>
     friend bool operator>(const Sort<U> &a, const Sort<U> &b);
