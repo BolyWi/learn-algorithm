@@ -52,7 +52,7 @@ void Sort<T>::resetElem()
 template <typename T>
 void Sort<T>::printElem(bool bsorted)
 {
-	const char *color = bsorted ? GREEN"[" : RED"[";
+	const char *color = bsorted ? GREEN"[ " : RED"[ ";
 	printf("%s", color);
     for(int i = 0; i < m_size; i++)
     {
@@ -75,9 +75,9 @@ void Sort<T>::printElem(int n)
 template <typename T>
 bool Sort<T>::bubbleSort()
 {
-    for (int i = 0; i < m_size-1; i++) // 排序的轮数
+    for (int i = 0; i < m_size-1; i++) 			// 排序的轮数
     {
-        for (int j = 0; j < m_size-1-i; j++) // 比较与交换
+        for (int j = 0; j < m_size-1-i; j++) 	// 比较与交换
         {
             if(m_element[j] > m_element[j+1])
             {
@@ -92,10 +92,10 @@ bool Sort<T>::bubbleSort()
 template <typename T>
 bool Sort<T>::selectSort()
 {
-    for(int i = 0; i < m_size - 1; i++)
+    for(int i = 0; i < m_size - 1; i++)	  //将最小值放到已排序序列末尾
     {
         int min = i;
-        for(int j = i+1; j < m_size; j++)
+        for(int j = i+1; j < m_size; j++) // 找到未排序中最小值
         {
 			if(m_element[j] <m_element[min])
 				min = j;
@@ -109,11 +109,12 @@ bool Sort<T>::selectSort()
 template <typename T>
 bool Sort<T>::insertSort()
 {
-	for(int i = 0, j = 0, key = 0; i < m_size; i++)
+	T key;
+	for(int i = 0, j = 0; i < m_size; i++) // 依次取出未排序部分中的元素
 	{
 		key = m_element[i];
 		j = i-1;
-		while((j>=0) && (m_element[j]>key))
+		while((j>=0) && (m_element[j]>key)) // 将取出的元素在已排序部分中找到合适的位置插入
 		{
 			m_element[j+1] = m_element[j];
 			j--;
@@ -121,6 +122,65 @@ bool Sort<T>::insertSort()
 		m_element[j+1] = key;
 		printElem(i);
 	}
+    return false;
+}
+
+template <typename T>
+bool Sort<T>::shellSort()
+{
+	T temp;
+	for(int i = 0, j = 0, gap = m_size >> 1;gap > 0; gap >>=1)
+	{
+		for(i = gap; i < m_size; i++)
+		{
+			temp = m_element[i];
+			for(j = i - gap; j >= 0 && m_element[j] > temp; j -= gap)
+			{
+				m_element[j+gap] = m_element[j];
+			}
+			m_element[j+gap] = temp;
+			printElem(false);
+		}
+	}
+    return false;
+}
+
+template <typename T>
+bool Sort<T>::mergeSort()
+{
+	T *a = m_element;
+	T *b = (T*)malloc(m_size* sizeof(T));
+
+	for(int seg = 1; seg < m_size; seg++)
+	{
+		for(int start = 0; start < m_size; start += seg*2)
+		{
+			int low = start;
+			int mid = (start+seg) < m_size ? start+seg : m_size;
+			int high = (start+seg*2) < m_size ? start+seg*2 :m_size;
+			int k = low;
+			int start1 = low, end1 = mid;
+			int start2 = mid, end2 = high;
+			while (start1 < end1 && start2 < end2)
+				b[k++] = a[start1] < a[start2] ? a[start1++] : a[start2++];
+			while (start1 < end1)
+                b[k++] = a[start1++];
+            while (start2 < end2)
+                b[k++] = a[start2++];
+		}
+
+		T* temp = a;
+		a = b;
+		b = temp;
+		printElem(false);
+	}
+	if(a != m_element)
+	{
+		for(int i = 0; i < m_size; i++)
+			b[i] = a[i];
+		b = a;
+	}
+	free(b);
     return false;
 }
 
