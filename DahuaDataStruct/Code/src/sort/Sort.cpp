@@ -36,10 +36,23 @@ void Sort<T>::swap(T &a, T &b)
 
 template <typename T>
 Sort<T>::Sort(int size, T *element)
-    : m_element(element), m_size(size)
+    : m_element(element), m_size(size), m_circleCnt(0)
 {
 	m_element_bak = new T[size];
 	memcpy(m_element_bak, m_element, m_size* sizeof(m_element[0]));
+}
+
+template <typename T>
+Sort<T>::Sort(const int size, T element[], ENUM_SORT_TYPE type)
+	: m_element(element), m_size(size)
+{
+	
+}
+
+template <typename T>
+Sort<T>::~Sort()
+{
+	delete[] m_element_bak;
 }
 
 template <typename T>
@@ -59,6 +72,11 @@ void Sort<T>::printElem(bool bsorted)
         printf("%d ", m_element[i]);
     }
     printf("]" RESET "\n");
+	
+	if(bsorted)
+	{
+		printf("Total circle cnt: %d \n", m_circleCnt);
+	}
 }
 
 template <typename T>
@@ -83,7 +101,26 @@ bool Sort<T>::bubbleSort()
             {
                 swap(m_element[j], m_element[j+1]);
             }
-        }
+			m_circleCnt++;
+		}
+		printElem(i);
+    }
+    return false;
+}
+
+template <typename T>
+bool Sort<T>::bubbleSortSimple()
+{
+    for (int i = 0; i < m_size; i++) 				// 排序的轮数
+    {
+        for (int j = i+1; j <= m_size; j++) 		// 比较与交换
+        {
+            if(m_element[i] > m_element[j])
+            {
+                swap(m_element[i], m_element[j]);
+            }
+			m_circleCnt++;
+		}
 		printElem(i);
     }
     return false;
@@ -191,33 +228,30 @@ bool Sort<T>::quickSort()
 }
 
 template <typename U>
-bool operator>(const Sort<U> &a, const Sort<U> &b)
+bool operator > (const Sort<U> &a, const Sort<U> &b)
 {
     return false;
 }
 
 template <typename U>
-bool operator<(const Sort<U> &a, const Sort<U> &b)
+bool operator < (const Sort<U> &a, const Sort<U> &b)
 {
     return false;
 }
 
 template <typename U>
-bool operator==(const Sort<U> &a, const Sort<U> &b)
+bool operator == (const Sort<U> &a, const Sort<U> &b)
 {
     return false;
 }
 
-int main(int argc, char* argv[])
+void test_sort(Sort<int> *sort)
 {
-	char** cmd = argv;
-	int arr[] = {49, 23, 17, 68, 14, 30, 24, 20, 18, 46};
-	int len  = sizeof(arr) / sizeof(arr[0]);
-	Sort<int> *sort = new Sort<int>(len, arr);
-	sort->printElem(false);
 	clock_t start, end;
 	double cpu_time_used;
-	
+
+	sort->printElem(false);
+
 	start = clock();
 	sort->bubbleSort();
 	end = clock();
@@ -225,5 +259,22 @@ int main(int argc, char* argv[])
 	sort->printElem(true);
 	cpu_time_used = ((double)(end-start)) / CLOCKS_PER_SEC;
 	SORT_DEBUG("#run time:%lf#\r\n", cpu_time_used);
+}
+
+void test_labmda(void(*callback)())
+{
+	
+	callback();
+}
+
+int main(int argc, char* argv[])
+{
+	char** cmd = argv;
+	int arr[] = {49, 23, 17, 68, 14, 30, 24, 20, 18, 46};
+	int len  = sizeof(arr) / sizeof(arr[0]);
+
+	Sort<int> *sort = new Sort<int>(len, arr);
+	test_sort(sort);
+	test_labmda([](){printf("Hello lambda!\r\n");});
 	return 0;
 }
