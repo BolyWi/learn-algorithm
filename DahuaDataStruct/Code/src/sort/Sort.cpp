@@ -195,9 +195,47 @@ bool Sort<T>::mergeSort()
     return false;
 }
 
+typedef struct _Range {
+    int start, end;
+} Range;
+
+Range new_Range(int s, int e) {
+    Range r;
+    r.start = s;
+    r.end = e;
+    return r;
+}
+
 template <typename T>
 bool Sort<T>::quickSort()
 {
+	Range r[m_size];
+    int p = 0;
+    r[p++] = new_Range(0, m_size - 1);
+    while (p)
+	{
+        Range range = r[--p];
+        if (range.start >= range.end)
+            continue;
+        int mid = m_element[(range.start + range.end) / 2];
+        int left = range.start, right = range.end;
+        do {
+            while (m_element[left] < mid)
+				++left;
+            while (m_element[right] > mid)
+				--right;
+            if (left <= right)
+			{
+                swap(m_element[left], m_element[right]);
+                left++;
+                right--;
+            }
+        } while (left <= right);
+        if (range.start < right)
+			r[p++] = new_Range(range.start, right);
+        if (range.end > left)
+			r[p++] = new_Range(left, range.end);
+    }
     return false;
 }
 
