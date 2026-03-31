@@ -139,19 +139,19 @@ bool Sort<T>::insertSort()
 template <typename T>
 bool Sort<T>::shellSort()
 {
-	T temp;
-	for(int i = 0, j = 0, gap = m_size >> 1;gap > 0; gap >>=1)
+	for(int gap = m_size >> 1;gap > 0; gap >>=1)
 	{
-		for(i = gap; i < m_size; i++)
+		for(int i = gap, j = 0; i < m_size; i++)
 		{
-			temp = m_element[i];
+			T temp = m_element[i];
+
 			for(j = i - gap; j >= 0 && m_element[j] > temp; j -= gap)
 			{
 				m_element[j+gap] = m_element[j];
 			}
 			m_element[j+gap] = temp;
-			printElem(false);
 		}
+		printElem(false);
 	}
     return false;
 }
