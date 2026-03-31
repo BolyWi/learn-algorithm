@@ -162,7 +162,7 @@ bool Sort<T>::mergeSort()
 	T *a = m_element;
 	T *b = (T*)malloc(m_size* sizeof(T));
 
-	for(int seg = 1; seg < m_size; seg++)
+	for(int seg = 1; seg < m_size; seg*=2)
 	{
 		for(int start = 0; start < m_size; start += seg*2)
 		{
