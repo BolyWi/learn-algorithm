@@ -7,6 +7,32 @@
 #include <string.h>
 #include <time.h>
 
+#define SORT_DEBUG(fmt, ...) 								\
+	do{														\
+		printf("[sort_debug] file:%s line:%d, func:%s, "	\
+		fmt,__FILE__, __LINE__,__func__, ##__VA_ARGS__);	\
+	}while(0)												\
+
+// fg color
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define WHITE   "\033[37m"
+
+// bg color
+#define BG_RED     "\033[41m"
+#define BG_GREEN   "\033[42m"
+#define BG_YELLOW  "\033[43m"
+#define BG_BLUE    "\033[44m"
+
+// style
+#define BOLD    	"\033[1m"
+#define UNDERLINE 	"\033[4m"
+#define RESET   	"\033[0m"
+
 template <typename T = int>
 class Sort
 {
