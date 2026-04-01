@@ -195,6 +195,24 @@ bool Sort<T>::mergeSort()
     return false;
 }
 
+template <typename T>
+bool Sort<T>::countingSort()
+{
+    return false;
+}
+
+template <typename T>
+bool Sort<T>::bucketSort()
+{
+    return false;
+}
+
+template <typename T>
+bool Sort<T>::radixSort()
+{
+    return false;
+}
+
 typedef struct _Range {
     int start, end;
 } Range;
@@ -236,6 +254,41 @@ bool Sort<T>::quickSort()
         if (range.end > left)
 			r[p++] = new_Range(left, range.end);
     }
+    return false;
+}
+
+template <typename T>
+void max_heapify(T t[], int start, int end)
+{
+	int dad = start;
+	int son = dad * 2 + 1;
+	while(son <= end)
+	{
+		if(son + 1 <= end && t[son] < t[son + 1])
+			son++;
+		if(t[dad] > t[son])
+			return;
+		else{
+			swap(t[dad], t[son]);
+			dad = son;
+			son = dad * 2 + 1;
+		}
+	}
+}
+
+template <typename T>
+bool Sort<T>::heapSort()
+{
+	for(int i = m_size/2 - 1; i <= 0; i--)
+	{
+		max_heapify(m_element, i, m_size-1);
+	}
+
+	for(int i = m_size-1; i > 0; i--)
+	{
+		swap(m_element[0], m_element[i]);
+		max_heapify(m_element, 0, i-1);
+	}
     return false;
 }
 
