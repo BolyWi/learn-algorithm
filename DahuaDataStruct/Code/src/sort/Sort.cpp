@@ -1,15 +1,15 @@
 #include "sort.hpp"
 
-template <typename T>
-void Sort<T>::swap(T &a, T &b)
+template <typename U>
+void swap(U &a, U &b)
 {
-    T tmp = a;
+    U tmp = a;
     a = b;
     b = tmp;
 }
 
 template <typename T>
-Sort<T>::Sort(int size, T *element)
+Sort<T>::Sort(int size, T element[])
     : m_element(element), m_size(size), m_circleCnt(0)
 {
 	m_element_bak = new T[size];

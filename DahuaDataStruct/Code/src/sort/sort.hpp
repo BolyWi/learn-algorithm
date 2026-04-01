@@ -55,7 +55,6 @@ private:
 	T *m_element_bak;
     int m_size;
 	int m_circleCnt;
-    void swap(T &a, T &b);
 
 public:
     Sort() {}
@@ -82,6 +81,8 @@ public:
 	bool radixSort();
 
 // friend function
+	template <typename U>
+	friend void swap(U &a, U &b);
     template <typename U>
     friend bool operator > (const Sort<U> &a, const Sort<U> &b);
     template <typename U>
