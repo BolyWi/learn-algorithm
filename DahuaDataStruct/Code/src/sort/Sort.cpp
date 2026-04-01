@@ -279,7 +279,7 @@ void max_heapify(T t[], int start, int end)
 template <typename T>
 bool Sort<T>::heapSort()
 {
-	for(int i = m_size/2 - 1; i <= 0; i--)
+	for(int i = m_size/2 - 1; i >= 0; i--)
 	{
 		max_heapify(m_element, i, m_size-1);
 	}
@@ -318,7 +318,7 @@ void test_sort(Sort<int> *sort)
 	sort->printElem(false);
 
 	start = clock();
-	sort->bubbleSort();
+	sort->heapSort();
 	end = clock();
 
 	sort->printElem(true);
